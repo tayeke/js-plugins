@@ -1,12 +1,11 @@
-/* external js template load */
-function render(tmpl_name) {
+/* external js template load with a cache */
+function render(path) {
     if ( !render.tmpl_cache ) {
         render.tmpl_cache = {};
     }
 
-    if ( ! render.tmpl_cache[tmpl_name] ) {
-        var tmpl_dir = '/templates';
-        var tmpl_url = tmpl_dir + '/' + tmpl_name + '.html';
+    if ( ! render.tmpl_cache[path] ) {
+        var tmpl_url = path + '.html';
 
         var tmpl_string;
         $.ajax({
@@ -17,9 +16,7 @@ function render(tmpl_name) {
                 tmpl_string = data;
             }
         });
-
-        render.tmpl_cache[tmpl_name] = _.template(tmpl_string);
+        render.tmpl_cache[path] = _.template(tmpl_string);
     }
-
-    return render.tmpl_cache[tmpl_name];
+    return render.tmpl_cache[path];
 }
